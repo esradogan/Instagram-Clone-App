@@ -6,6 +6,7 @@ import Post from './Post'
 import { db, auth } from './firebase';
 import { Button } from '@material-ui/core';
 import { Input } from '@material-ui/core';
+import ImageUpload from './ImageUpload';
 
 function getModalStyle () {
   const top = 50;
@@ -39,6 +40,7 @@ function App () {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+  const [openSignIn, setOpenSignIn] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -67,6 +69,19 @@ function App () {
     }, []
   );
 
+  const signIn = (event) => {
+    event.preventDefault();
+    auth.signInWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        return authUser.user.updateProfile({
+          displayName: username
+        })
+      })
+      .catch((error) => alert(error.message))
+
+    setOpenSignIn(false)
+  }
+
   const signUp = (event) => {
     event.preventDefault();
     auth.createUserWithEmailAndPassword(email, password)
@@ -80,6 +95,8 @@ function App () {
 
   return (
     <div className="App">
+      {user?.displayName ? (<ImageUpload username={user.displayName}/>) : (<h>Sorry, you need to login to upload!</h>)}
+
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -111,14 +128,52 @@ function App () {
               value={password}
               onChange={(event) => setPassword(event.target.value)}>
             </Input>
-            <Button type="submit" onClick={signUp}>Sign Up</Button>)
+            <Button type="submit" onClick={signUp}>Sign Up</Button>
+          </form>
+
+        </div>
+      </Modal>
+
+      <Modal
+        open={openSignIn}
+        onClose={() => setOpenSignIn(false)}
+      >
+        <div style={modalStyle} className={classes.paper}>
+          <form className="app_signup">
+            <center>
+              <img className="app__headerImage"
+                src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
+                alt="">
+              </img>
+            </center>
+
+            <Input
+              placeholder="Username"
+              type="text"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}>
+            </Input>
+
+            <Input
+              placeholder="Password"
+              type="text"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}>
+            </Input>
+            <Button type="submit" onClick={signIn}>Sign In</Button>
           </form>
 
         </div>
       </Modal>
       <div className="app__header"></div>
-      {user ? (<Button type="submit" onClick={() => auth.signOut()}>Logout</Button>)
-        : (<Button type="submit" onClick={() => setOpen(true)}>Sign Up</Button>)}
+      {user ?
+        (<Button type="submit" onClick={() => auth.signOut()}>Logout</Button>)
+        :
+        (<div className="app_loginContainer">
+          <Button type="submit" onClick={() => setOpenSignIn(true)}>Sign In</Button>
+          <Button type="submit" onClick={() => setOpen(true)}>Sign Up</Button>
+
+        </div>)}
       <h1>Insta Clone App</h1>
       {
         posts.map(({ id, post }) => <Post key={id} username={post.username} caption={post.caption} imageUrl={post.imageUrl} />)
