@@ -60,7 +60,7 @@ function App () {
 
   useEffect(
     () => {
-      db.collection('posts').onSnapshot(snapshot => {
+      db.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
         setPosts(snapshot.docs.map(d => ({
           id: d.id,
           post: d.data()
@@ -95,7 +95,6 @@ function App () {
 
   return (
     <div className="App">
-      {user?.displayName ? (<ImageUpload username={user.displayName}/>) : (<h>Sorry, you need to login to upload!</h>)}
 
       <Modal
         open={open}
@@ -165,19 +164,31 @@ function App () {
 
         </div>
       </Modal>
-      <div className="app__header"></div>
-      {user ?
-        (<Button type="submit" onClick={() => auth.signOut()}>Logout</Button>)
-        :
-        (<div className="app_loginContainer">
-          <Button type="submit" onClick={() => setOpenSignIn(true)}>Sign In</Button>
-          <Button type="submit" onClick={() => setOpen(true)}>Sign Up</Button>
 
-        </div>)}
+      <div className="app__header">
+        <img
+          className="app__headerImage"
+          src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
+          alt="">
+        </img>
+        {user ?
+          (<Button type="submit" onClick={() => auth.signOut()}>Logout</Button>)
+          :
+          (<div className="app_loginContainer">
+            <Button type="submit" onClick={() => setOpenSignIn(true)}>Sign In</Button>
+            <Button type="submit" onClick={() => setOpen(true)}>Sign Up</Button>
+
+          </div>)}
+      </div>
+
+
       <h1>Insta Clone App</h1>
       {
         posts.map(({ id, post }) => <Post key={id} username={post.username} caption={post.caption} imageUrl={post.imageUrl} />)
       }
+
+      {user?.displayName ? (<ImageUpload username={user.displayName} />) : (<h>Sorry, you need to login to upload!</h>)}
+
     </div>
   );
 }

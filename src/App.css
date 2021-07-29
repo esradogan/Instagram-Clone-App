@@ -1,24 +1,27 @@
-*{
-margin : 0;
+* {
+  margin: 0;
 }
-.app{
-
-background-color: #fafafa;
-height : 100vh;
+.app {
+  background-color: #fafafa;
+  height: 100vh;
 }
-.app__headerImage{
-background-color: white;
-padding: 20px ;
-border-bottom: 1px solid lightgray;
+.app__header {
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  padding: 20px;
+  border-bottom: 1px solid lightgray;
+  object-fit: contain;
+  margin-bottom: 15px;
+}
+.app__headerImage {
   object-fit: contain;
 }
-.app_signup{
-display: flex;
-flex-direction: column;
-justify-content: center;
-padding: 30px;
+.app_signup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px;
 }
-.app_loginContainer{
-
-  
+.app_loginContainer {
 }
