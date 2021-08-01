@@ -7,6 +7,7 @@ import { db, auth } from './firebase';
 import { Button } from '@material-ui/core';
 import { Input } from '@material-ui/core';
 import ImageUpload from './ImageUpload';
+import InstagramEmbed from 'react-instagram-embed';
 
 function getModalStyle () {
   const top = 50;
@@ -179,13 +180,31 @@ function App () {
             <Button type="submit" onClick={() => setOpen(true)}>Sign Up</Button>
 
           </div>)}
+
       </div>
 
-
-      <h1>Insta Clone App</h1>
-      {
-        posts.map(({ id, post }) => <Post key={id} username={post.username} caption={post.caption} imageUrl={post.imageUrl} />)
-      }
+      <div className="app_posts">
+        <div className="app_postsLeft">
+          {
+            posts.map(({ id, post }) => <Post key={id} username={post.username} caption={post.caption} imageUrl={post.imageUrl} />)
+          }
+        </div>
+        <div className="app_postsRight">
+          <InstagramEmbed
+            url='https://instagr.am/p/B_uf9dmAGPw/'
+            // clientAccessToken='123|456'
+            maxWidth={320}
+            hideCaption={false}
+            containerTagName='div'
+            protocol=''
+            injectScript
+            onLoading={() => { }}
+            onSuccess={() => { }}
+            onAfterRender={() => { }}
+            onFailure={() => { }}
+          />
+        </div>
+      </div>
 
       {user?.displayName ? (<ImageUpload username={user.displayName} />) : (<h>Sorry, you need to login to upload!</h>)}
 

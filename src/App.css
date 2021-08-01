@@ -25,3 +25,17 @@
 }
 .app_loginContainer {
 }
+.app_posts {
+  padding: 20px;
+  display: flex;
+  /* justify-content: center */
+}
+.app_postsLeft {
+
+
+}
+
+.app_postsLeft {
+margin-left:20px;
+
+}

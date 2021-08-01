@@ -1,15 +1,14 @@
-.post{
-    background-color: white;
-    max-width: 500px;
-    border: 1px solid lightgray;
-    margin-bottom: 45px;
+.post {
+  background-color: white;
+  max-width: 500px;
+  border: 1px solid lightgray;
+  margin-bottom: 45px;
 }
 .post_image {
   width: 100%;
   object-fit: contain;
   border-bottom: 1px solid lightgray;
   border-top: 1px solid lightgray;
-
 }
 .post_text {
   font-weight: normal;
@@ -23,4 +22,8 @@
 }
 .post_avatar {
   margin-right: 10px;
+}
+.post_commentBox {
+  display: flex;
+  margin-top: 10px;
 }
